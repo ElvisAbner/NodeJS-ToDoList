@@ -1,16 +1,19 @@
 const express = require('express');
 const app = express();
+const port = 3000;
 
-let items = [];
-
+// Set the view engine to EJS
 app.set('view engine', 'ejs');
 
+// Parse URL-encoded bodies
 app.use(express.urlencoded({ extended: true }));
 
-app.listen(3000, () => {
-  console.log('Server Started on port 3000!!!');
+// Start the server
+app.listen(port, () => {
+  console.log('Server Started on port ' + port + '!!!');
 });
 
+// Home route
 app.get('/', (req, res) => {
   let today = new Date();
 
@@ -28,6 +31,7 @@ app.get('/', (req, res) => {
   });
 });
 
+// Post route
 app.post('/', (req, res) => {
   let item = req.body.newItem;
 
@@ -35,3 +39,6 @@ app.post('/', (req, res) => {
 
   res.redirect('/');
 });
+
+// Initial list of items
+let items = [];
