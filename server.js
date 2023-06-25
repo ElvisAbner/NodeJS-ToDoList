@@ -8,6 +8,8 @@ app.set('view engine', 'ejs');
 // Parse URL-encoded bodies
 app.use(express.urlencoded({ extended: true }));
 
+app.use(express.static('public'));
+
 // Start the server
 app.listen(port, () => {
   console.log('Server Started on port ' + port + '!!!');
