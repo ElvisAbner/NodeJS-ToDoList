@@ -6,14 +6,11 @@ const port = 3000;
 app.set('view engine', 'ejs');
 
 // Parse URL-encoded bodies
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({
+  extended: true
+}));
 
 app.use(express.static('public'));
-
-// Start the server
-app.listen(port, () => {
-  console.log('Server Started on port ' + port + '!!!');
-});
 
 // Home route
 app.get('/', (req, res) => {
@@ -28,8 +25,8 @@ app.get('/', (req, res) => {
   let day = today.toLocaleDateString('en-US', options);
 
   res.render('list', {
-    kindOfDay: day,
-    newListItem: items
+    listTitle: day,
+    newListItems: items
   });
 });
 
@@ -37,10 +34,28 @@ app.get('/', (req, res) => {
 app.post('/', (req, res) => {
   let item = req.body.newItem;
 
-  items.push(item);
+  if (req.body.list === 'Work') {
+    workItems.push(item);
+    res.redirect('/work');
+  } else {
+    items.push(item);
+    res.redirect('/');
+  }
+});
 
-  res.redirect('/');
+//Work route
+app.get('/work', (req, res) => {
+  res.render('list', {
+    listTitle: 'Work List',
+    newListItems: workItems
+  });
 });
 
 // Initial list of items
 let items = [];
+let workItems = [];
+
+// Start the server
+app.listen(port, () => {
+  console.log('Server Started on port ' + port + '!!!');
+});
