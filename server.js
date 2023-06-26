@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const port = 3000;
+const date = require(__dirname + '/date.js')
 
 // Set the view engine to EJS
 app.set('view engine', 'ejs');
@@ -14,15 +15,8 @@ app.use(express.static('public'));
 
 // Home route
 app.get('/', (req, res) => {
-  let today = new Date();
 
-  let options = {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long'
-  };
-
-  let day = today.toLocaleDateString('en-US', options);
+  let day = date.getDate();
 
   res.render('list', {
     listTitle: day,
@@ -49,6 +43,10 @@ app.get('/work', (req, res) => {
     listTitle: 'Work List',
     newListItems: workItems
   });
+});
+
+app.get('/about', (req, res) => {
+  res.render('about');
 });
 
 // Initial list of items
