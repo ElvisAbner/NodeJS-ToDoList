@@ -1,7 +1,11 @@
 const express = require('express');
 const app = express();
 const port = 3000;
-const date = require(__dirname + '/date.js')
+const date = require('./date.js');
+
+// Initial list of items
+let items = [];
+let workItems = [];
 
 // Set the view engine to EJS
 app.set('view engine', 'ejs');
@@ -11,11 +15,11 @@ app.use(express.urlencoded({
   extended: true
 }));
 
+// Serve static files from the 'public' directory
 app.use(express.static('public'));
 
 // Home route
 app.get('/', (req, res) => {
-
   let day = date.getDate();
 
   res.render('list', {
@@ -37,7 +41,7 @@ app.post('/', (req, res) => {
   }
 });
 
-//Work route
+// Work route
 app.get('/work', (req, res) => {
   res.render('list', {
     listTitle: 'Work List',
@@ -45,13 +49,10 @@ app.get('/work', (req, res) => {
   });
 });
 
+// About route
 app.get('/about', (req, res) => {
   res.render('about');
 });
-
-// Initial list of items
-let items = [];
-let workItems = [];
 
 // Start the server
 app.listen(port, () => {
