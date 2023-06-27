@@ -1,51 +1,23 @@
-const express = require('express');
-const app = express();
-const port = 3000;
-const date = require('./date.js');
+exports.getDate = () => {
 
-app.set('view engine', 'ejs');
+  const today = new Date();
 
-app.use(express.urlencoded({
-  extended: true
-}));
+  const options = {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long'
+  };
 
-app.use(express.static('public'));
+  return today.toLocaleDateString('en-US', options);
+} 
 
-app.get('/', (req, res) => {
-  let day = date.getDate();
+exports.getDay = () => {
 
-  res.render('list', {
-    listTitle: day,
-    newListItems: items
-  });
-});
+  const today = new Date();
 
-app.post('/', (req, res) => {
-  let item = req.body.newItem;
+  const options = {
+    weekday: 'long'
+  };
 
-  if (req.body.list === 'Work') {
-    workItems.push(item);
-    res.redirect('/work');
-  } else {
-    items.push(item);
-    res.redirect('/');
-  }
-});
-
-app.get('/work', (req, res) => {
-  res.render('list', {
-    listTitle: 'Work List',
-    newListItems: workItems
-  });
-});
-
-app.get('/about', (req, res) => {
-  res.render('about');
-});
-
-let items = [];
-let workItems = [];
-
-app.listen(port, () => {
-  console.log('Server Started on port ' + port + '!!!');
-});
+  return today.toLocaleDateString('en-US', options);
+}
