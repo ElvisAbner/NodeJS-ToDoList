@@ -1,23 +1,51 @@
-exports.getDate = () => {
+const express = require('express');
+const app = express();
+const port = 3000;
+const date = require('./date.js');
 
-  const today = new Date();
+app.set('view engine', 'ejs');
 
-  const options = {
-    weekday: 'long',
-    day: 'numeric',
-    month: 'long'
-  };
+app.use(express.urlencoded({
+  extended: true
+}));
 
-  return today.toLocaleDateString('en-US', options);
-} 
+app.use(express.static('public'));
 
-exports.getDay = () => {
+app.get('/', (req, res) => {
+  let day = date.getDate();
 
-  const today = new Date();
+  res.render('list', {
+    listTitle: day,
+    newListItems: items
+  });
+});
 
-  const options = {
-    weekday: 'long'
-  };
+app.post('/', (req, res) => {
+  let item = req.body.newItem;
 
-  return today.toLocaleDateString('en-US', options);
-}
+  if (req.body.list === 'Work') {
+    workItems.push(item);
+    res.redirect('/work');
+  } else {
+    items.push(item);
+    res.redirect('/');
+  }
+});
+
+app.get('/work', (req, res) => {
+  res.render('list', {
+    listTitle: 'Work List',
+    newListItems: workItems
+  });
+});
+
+app.get('/about', (req, res) => {
+  res.render('about');
+});
+
+let items = [];
+let workItems = [];
+
+app.listen(port, () => {
+  console.log('Server Started on port ' + port + '!!!');
+});

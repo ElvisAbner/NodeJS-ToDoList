@@ -16,26 +16,36 @@ app.get('/', (req, res) => {
 
   res.render('list', {
     listTitle: day,
-    newListItems: items
+    newListItems: items,
+    errorMessage: ''
   });
 });
 
 app.post('/', (req, res) => {
   let item = req.body.newItem;
 
-  if (req.body.list === 'Work') {
-    workItems.push(item);
-    res.redirect('/work');
+  if (item.trim() !== '') {
+    if (req.body.list === 'Work') {
+      workItems.push(item);
+      res.redirect('/work');
+    } else {
+      items.push(item);
+      res.redirect('/');
+    }
   } else {
-    items.push(item);
-    res.redirect('/');
+    res.render('list', {
+      listTitle: date.getDate(),
+      newListItems: items,
+      errorMessage: 'Please enter a non-empty item.'
+    });
   }
 });
 
 app.get('/work', (req, res) => {
   res.render('list', {
     listTitle: 'Work List',
-    newListItems: workItems
+    newListItems: workItems,
+    errorMessage: ''
   });
 });
 
