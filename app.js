@@ -1,9 +1,20 @@
 const express = require("express");
 const mongoose = require ("mongoose")
+const cool = require('cool-ascii-faces')
+const path = require('path')
 const _ = require('lodash')
 
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 5001
+
+express()
+  .use(express.static(path.join(__dirname, 'public')))
+  .set('views', path.join(__dirname, 'views'))
+  .set('view engine', 'ejs')
+  .get('/', (req, res) => res.render('pages/index'))
+  .get('/cool', (req, res) => res.send(cool()))
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
+
 const date = require(__dirname + "/date.js");
 
 app.set('view engine', 'ejs');
@@ -159,6 +170,3 @@ app.get("/about", function(req, res){
   res.render("about");
 });
 
-app.listen(port, function() {
-  console.log("Server started on port 3000");
-});
