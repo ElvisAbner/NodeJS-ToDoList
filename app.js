@@ -5,15 +5,29 @@ const path = require('path')
 const _ = require('lodash')
 
 const app = express();
-const PORT = process.env.PORT || 5001
+const PORT = process.env.PORT || 3000
 
-express()
-  .use(express.static(path.join(__dirname, 'public')))
-  .set('views', path.join(__dirname, 'views'))
-  .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('pages/index'))
-  .get('/cool', (req, res) => res.send(cool()))
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URI);
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+}
+
+//Routes go here
+app.all('*', (req,res) => {
+    res.json({"every thing":"is awesome"})
+})
+
+//Connect to the database before listening
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log("listening for requests");
+    })
+})
 
 const date = require(__dirname + "/date.js");
 
@@ -25,9 +39,6 @@ app.use(express.urlencoded({
 
 app.use(express.static("public"));
 
-//MONGOOSE
-
-mongoose.connect('mongodb+srv://admin-elvis:<password>@cluster0.zocew6p.mongodb.net/?retryWrites=true&w=majority')
 
 const itemsSchema = new mongoose.Schema ({
   name: {type: String, require: true, min: 1}
