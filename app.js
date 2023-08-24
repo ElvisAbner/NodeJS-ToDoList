@@ -3,7 +3,6 @@ const mongoose = require ("mongoose")
 const _ = require('lodash')
 require('dotenv').config()
 
-
 const app = express();
 const PORT = process.env.PORT || 3000
 
@@ -32,7 +31,6 @@ app.use(express.urlencoded({
 }));
 
 app.use(express.static("public"));
-
 
 const itemsSchema = new mongoose.Schema ({
   name: {type: String, require: true, min: 1}
@@ -166,12 +164,3 @@ else {
   })
 }
 })
-
-app.get("/work", function(req,res){
-  res.render("list", {listTitle: "Work List", newListItems: workItems});
-});
-
-app.get("/about", function(req, res){
-  res.render("about");
-});
-
