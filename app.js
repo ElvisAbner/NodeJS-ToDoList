@@ -15,6 +15,12 @@ const connectDB = async () => {
   }
 }
 
+connectDB().then(() => {
+  app.listen(PORT, () => {
+      console.log("listening for requests");
+  })
+})
+
 const date = require(__dirname + "/date.js");
 
 app.set('view engine', 'ejs');
