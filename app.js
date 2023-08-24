@@ -1,7 +1,5 @@
 const express = require("express");
 const mongoose = require ("mongoose")
-const cool = require('cool-ascii-faces')
-const path = require('path')
 const _ = require('lodash')
 
 const app = express();
@@ -16,18 +14,6 @@ const connectDB = async () => {
     process.exit(1);
   }
 }
-
-//Routes go here
-app.all('*', (req,res) => {
-    res.json({"every thing":"is awesome"})
-})
-
-//Connect to the database before listening
-connectDB().then(() => {
-    app.listen(PORT, () => {
-        console.log("listening for requests");
-    })
-})
 
 const date = require(__dirname + "/date.js");
 
