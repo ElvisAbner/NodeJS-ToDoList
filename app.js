@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require ("mongoose")
 const _ = require('lodash')
+require('dotenv').config()
 
 const app = express();
 const PORT = process.env.PORT || 3000
