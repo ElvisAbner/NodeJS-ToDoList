@@ -109,8 +109,6 @@ app.get("/", function(req, res) {
       });
   });
   
-  
-
 app.post("/", function(req, res){
 
   const itemName = req.body.newItem;
@@ -141,7 +139,6 @@ app.post('/delete', (req, res) => {
 
 const checkedItemId = req.body.checkbox;
 const listName = req.body.listName;
-
 
 if (listName === date.getDate()) {
 
